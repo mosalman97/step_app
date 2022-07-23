@@ -6,10 +6,11 @@ import {
   Image,
   TouchableOpacity,
   Text,
-  AsyncStorage,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SIZES} from '../general/Constants';
 import axios from 'axios';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -25,39 +26,51 @@ const Signup = () => {
       })
       .then(response => {
         let data = response.data;
-        console.log(data);
+        let statuscode = response.data.StatusCode;
+        if (statuscode === 6000) {
+          AsyncStorage.setItem('data', JSON.stringify(data));
+        } else {
+          alert(response.data.message);
+        }
+      })
+      .catch(error => {
+        if (error.response.status === 401) {
+          setMessage(error.response.data.detail);
+        }
       });
   };
   return (
-    <View style={styles.container}>
-      <View style={styles.logocontainer}>
-        <Image
-          style={styles.logo}
-          source={require('../../assets/images/logo.png')}
-        />
+    <SafeAreaView>
+      <View style={styles.container}>
+        <View style={styles.logocontainer}>
+          <Image
+            style={styles.logo}
+            source={require('../../assets/images/logo.png')}
+          />
+        </View>
+        <View style={styles.inputcontainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Username"
+            onChangeText={username => setUsername(username)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Email"
+            onChangeText={email => setEmail(email)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Password"
+            secureTextEntry
+            onChangeText={password => setPassword(password)}
+          />
+        </View>
+        <TouchableOpacity style={styles.button} onPress={handlesubmit}>
+          <Text style={styles.signin}>Signin</Text>
+        </TouchableOpacity>
       </View>
-      <View style={styles.inputcontainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter Username"
-          onChangeText={username => setUsername(username)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Enter Email"
-          onChangeText={email => setEmail(email)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Enter Password"
-          secureTextEntry
-          onChangeText={password => setPassword(password)}
-        />
-      </View>
-      <TouchableOpacity style={styles.button} onPress={handlesubmit}>
-        <Text style={styles.signin}>Signin</Text>
-      </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
