@@ -23,11 +23,11 @@ const Signin = ({navigation}) => {
       .then(response => {
         let data = response.data;
         AsyncStorage.setItem('data', JSON.stringify(data));
-        navigation.navigate("Home")
-        
+        navigation.navigate('Home');
       })
       .catch(error => {
         console.log(error.response.data);
+        alert('Enter Username and Password');
         if (error.response.status === 401) {
           alert(error.response.data.detail);
         }

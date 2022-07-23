@@ -12,7 +12,7 @@ import {SIZES} from '../general/Constants';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const Signup = () => {
+const Signup = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,6 +29,7 @@ const Signup = () => {
         let statuscode = response.data.StatusCode;
         if (statuscode === 6000) {
           AsyncStorage.setItem('data', JSON.stringify(data));
+          navigation.navigate('Home');
         } else {
           alert(response.data.message);
         }
