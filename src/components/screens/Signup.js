@@ -11,7 +11,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SIZES} from '../general/Constants';
 import axios from 'axios';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Signup = ({navigation}) => {
   const [username, setUsername] = useState('');
@@ -27,16 +27,14 @@ const Signup = ({navigation}) => {
         password,
       })
       .then(response => {
-        let {StatusCode,data} = response.data
+        let {StatusCode, data} = response.data;
         if (StatusCode === 6000) {
           AsyncStorage.setItem('data', JSON.stringify(data));
           navigation.navigate('Home');
-          setEmail(""),
-          setPassword(""),
-          setUsername("")
-          setLoading(false)
+          setEmail(''), setPassword(''), setUsername('');
+          setLoading(false);
         } else {
-          alert("Enter Username ,Password ,Email");
+          alert('Enter Username ,Password ,Email');
         }
       })
       .catch(error => {
@@ -44,9 +42,9 @@ const Signup = ({navigation}) => {
           setMessage(error.response.data.detail);
         }
       });
-       {
-         username && password && email ? setLoading(true) : setLoading(false);
-       }
+    {
+      username && password && email ? setLoading(true) : setLoading(false);
+    }
   };
   return (
     <SafeAreaView>
@@ -80,10 +78,17 @@ const Signup = ({navigation}) => {
         </View>
         <TouchableOpacity style={styles.button} onPress={handlesubmit}>
           {handlesubmit && isLoading ? (
-            <ActivityIndicator size="small" color="#0000" />
+            <ActivityIndicator size="small" color="#0000ff" />
           ) : (
             <Text style={styles.signin}>Signin</Text>
           )}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.createaccount}
+          onPress={() => navigation.navigate('Login')}>
+          <Text>
+            Have an account ? <Text style={styles.login}>Log in</Text>
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -131,5 +136,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
+  },
+  createaccount: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  login: {
+    color: '#0FA76F',
+    fontWeight: '600',
   },
 });

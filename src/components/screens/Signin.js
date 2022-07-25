@@ -24,7 +24,7 @@ const Signin = ({navigation}) => {
       })
       .then(response => {
         let {StatusCode, data} = response.data;
-        let Statuscode = StatusCode
+        let Statuscode = StatusCode;
         AsyncStorage.setItem('data', JSON.stringify(data));
         navigation.navigate('Home');
         setLoading(false);
@@ -37,13 +37,9 @@ const Signin = ({navigation}) => {
           alert(error.response.data.detail);
         }
       });
-      {
-        username && password ? (
-          setLoading(true)
-        ) :(
-           setLoading(false)
-        )
-      }
+    {
+      username && password ? setLoading(true) : setLoading(false);
+    }
   };
   return (
     <SafeAreaView>
@@ -64,18 +60,18 @@ const Signin = ({navigation}) => {
           />
         </View>
         <TouchableOpacity style={styles.button} onPress={login}>
-          {login && isLoading? (
-            <ActivityIndicator size="small" color="#0000" />
+          {login && isLoading ? (
+            <ActivityIndicator size="small" color="#0000ff" />
           ) : (
             <Text style={styles.signin}>Signin</Text>
           )}
-          
-         
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.createaccount}
           onPress={() => navigation.navigate('Signin')}>
-          <Text>Create New Account ?</Text>
+          <Text>
+            Create New Account ? <Text style={styles.login}>Sign up</Text>
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -126,5 +122,9 @@ const styles = StyleSheet.create({
   createaccount: {
     alignItems: 'center',
     marginTop: 20,
+  },
+  login: {
+    color: '#0FA76F',
+    fontWeight: '600',
   },
 });

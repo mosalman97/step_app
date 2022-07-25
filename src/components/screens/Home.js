@@ -8,9 +8,10 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {SIZES} from '../general/Constants';
-import Loading from '../lottie/Loading';
+// import Loading from '../lottie/Loading';
 
 const Home = ({navigation}) => {
   const [places, setPlaces] = useState([]);
@@ -40,7 +41,6 @@ const Home = ({navigation}) => {
           </Text>
         </TouchableOpacity> */}
       </View>
-
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           {places.map(item => (
@@ -99,12 +99,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   button: {
-    width: SIZES.wp('25%'),
-    height: SIZES.hp('5%'),
+    width: SIZES.wp('30%'),
+    height: SIZES.hp('6%'),
     backgroundColor: 'blue',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 20,
+    borderRadius: 30,
     borderColor: 'black',
     borderWidth: 2,
   },
