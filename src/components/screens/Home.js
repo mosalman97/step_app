@@ -1,24 +1,46 @@
-import React, {useState} from 'react';
-import {SafeAreaView} from 'react-native';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native';
 import axios from 'axios';
-import {useEffect} from 'react';
 import {SIZES} from '../general/Constants';
-import {ScrollView} from 'react-native';
 import Loading from '../lottie/Loading';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const [places, setPlaces] = useState([]);
-  const [isLoading, setLoading] = useState(true);
+  // const [isLoading, setLoading] = useState(false);
   useEffect(() => {
     axios.get('https://traveller.talrop.works/api/v1/places').then(response => {
-      let data = response.data.data;
-      setPlaces(data);
-      console.log(places);
+      let {data, StatusCode} = response.data;
+      if (StatusCode === 6000) {
+        setPlaces(data);
+        // setLoading(false);
+      }
     });
   }, []);
   return (
     <SafeAreaView>
+      <View style={styles.buttoncontainer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.buttontext}>Logout</Text>
+        </TouchableOpacity>
+        {/* <TouchableOpacity style={styles.button}>
+          <Text
+            style={styles.buttontext}
+            onPress={() => navigation.navigate('Signin')}>
+            SignUp
+          </Text>
+        </TouchableOpacity> */}
+      </View>
+
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           {places.map(item => (
@@ -30,7 +52,7 @@ const Home = () => {
               <View style={styles.location}>
                 <Image
                   style={styles.locationimage}
-                  source={require('../../assets/images/place.png')}
+                  source={require('../../assets/images/location.png')}
                 />
                 <Text style={styles.locationname}>{item.location}</Text>
               </View>
@@ -57,10 +79,37 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 4,
+    marginBottom: 4,
   },
-  location: {},
+  location: {
+    flexDirection: 'row',
+  },
   locationimage: {
     width: SIZES.wp('6%'),
     height: SIZES.hp('3%'),
+    marginRight: 8,
+  },
+  locationname: {
+    fontSize: 15,
+    fontWeight: '400',
+  },
+  buttoncontainer: {
+    alignSelf: 'center',
+  },
+  button: {
+    width: SIZES.wp('25%'),
+    height: SIZES.hp('5%'),
+    backgroundColor: 'blue',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    borderColor: 'black',
+    borderWidth: 2,
+  },
+  buttontext: {
+    color: 'white',
+    fontSize: SIZES.hp('3%'),
   },
 });

@@ -9,8 +9,10 @@ import Home from './src/components/screens/Home';
 const App = () => {
   const Stack = createNativeStackNavigator();
   return (
-    <NavigationContainer >
-      <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown:false}} >
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Login"
+        screenOptions={{headerShown: false}}>
         <Stack.Screen name="Login" component={Signin} />
         <Stack.Screen name="Signin" component={Signup} />
         <Stack.Screen name="Home" component={Home} />

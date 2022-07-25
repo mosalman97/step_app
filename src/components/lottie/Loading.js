@@ -1,21 +1,22 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import LottieView from 'lottie-react-native';
-import { SIZES } from '../general/Constants';
+// import React from 'react';
+// import {StyleSheet, Text, View} from 'react-native';
+// import Lottie from 'lottie-react-native';
+// import {SIZES} from '../general/Constants';
 
-const Loading = () => {
-  return (
-    <View style={styles.container}>
-      <LottieView source={require('./loader.json')} autoPlay loop />
-    </View>
-  );
-};
+// const Loading = () => {
+//   return (
+//     <View style={styles.container}>
+//       <Lottie source={require('./loader.json')} autoPlay loop />
+//     </View>
+//   );
+// };
 
-export default Loading;
+// export default Loading;
 
-const styles = StyleSheet.create({
-    container : {
-        width:SIZES.wp("50%"),
-        height:SIZES.hp("30%")
-    }
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     width: SIZES.wp('50%'),
+//     height: SIZES.hp('30%'),
+//     alignItems: 'center',
+//   },
+// });

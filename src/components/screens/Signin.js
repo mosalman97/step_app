@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {isValidElement, useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
+  ActivityIndicator,
 } from 'react-native';
 import {SIZES} from '../general/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,6 +15,7 @@ import axios from 'axios';
 const Signin = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setLoading] = useState(false);
   const login = () => {
     axios
       .post('https://traveller.talrop.works/api/v1/auth/token/', {
@@ -21,9 +23,12 @@ const Signin = ({navigation}) => {
         password,
       })
       .then(response => {
-        let data = response.data;
+        let {StatusCode, data} = response.data;
+        let Statuscode = StatusCode
         AsyncStorage.setItem('data', JSON.stringify(data));
         navigation.navigate('Home');
+        setLoading(false);
+        setUsername(''), setPassword('');
       })
       .catch(error => {
         console.log(error.response.data);
@@ -32,6 +37,13 @@ const Signin = ({navigation}) => {
           alert(error.response.data.detail);
         }
       });
+      {
+        username && password ? (
+          setLoading(true)
+        ) :(
+           setLoading(false)
+        )
+      }
   };
   return (
     <SafeAreaView>
@@ -42,15 +54,28 @@ const Signin = ({navigation}) => {
             style={styles.input}
             placeholder="Enter Username"
             onChangeText={username => setUsername(username)}
+            value={username}
           />
           <TextInput
             style={styles.input}
             placeholder="Enter Password"
             onChangeText={password => setPassword(password)}
+            value={password}
           />
         </View>
         <TouchableOpacity style={styles.button} onPress={login}>
-          <Text style={styles.signin}>Signin</Text>
+          {login && isLoading? (
+            <ActivityIndicator size="small" color="#0000" />
+          ) : (
+            <Text style={styles.signin}>Signin</Text>
+          )}
+          
+         
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.createaccount}
+          onPress={() => navigation.navigate('Signin')}>
+          <Text>Create New Account ?</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -97,5 +122,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
+  },
+  createaccount: {
+    alignItems: 'center',
+    marginTop: 20,
   },
 });

@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Text,
+  ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SIZES} from '../general/Constants';
@@ -16,6 +17,7 @@ const Signup = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setLoading] = useState(false);
 
   const handlesubmit = () => {
     axios
@@ -25,13 +27,16 @@ const Signup = ({navigation}) => {
         password,
       })
       .then(response => {
-        let data = response.data;
-        let statuscode = response.data.StatusCode;
-        if (statuscode === 6000) {
+        let {StatusCode,data} = response.data
+        if (StatusCode === 6000) {
           AsyncStorage.setItem('data', JSON.stringify(data));
           navigation.navigate('Home');
+          setEmail(""),
+          setPassword(""),
+          setUsername("")
+          setLoading(false)
         } else {
-          alert(response.data.message);
+          alert("Enter Username ,Password ,Email");
         }
       })
       .catch(error => {
@@ -39,6 +44,9 @@ const Signup = ({navigation}) => {
           setMessage(error.response.data.detail);
         }
       });
+       {
+         username && password && email ? setLoading(true) : setLoading(false);
+       }
   };
   return (
     <SafeAreaView>
@@ -54,21 +62,28 @@ const Signup = ({navigation}) => {
             style={styles.input}
             placeholder="Enter Username"
             onChangeText={username => setUsername(username)}
+            value={username}
           />
           <TextInput
             style={styles.input}
             placeholder="Enter Email"
             onChangeText={email => setEmail(email)}
+            value={email}
           />
           <TextInput
             style={styles.input}
             placeholder="Enter Password"
             secureTextEntry
             onChangeText={password => setPassword(password)}
+            value={password}
           />
         </View>
         <TouchableOpacity style={styles.button} onPress={handlesubmit}>
-          <Text style={styles.signin}>Signin</Text>
+          {handlesubmit && isLoading ? (
+            <ActivityIndicator size="small" color="#0000" />
+          ) : (
+            <Text style={styles.signin}>Signin</Text>
+          )}
         </TouchableOpacity>
       </View>
     </SafeAreaView>
