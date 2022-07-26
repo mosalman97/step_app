@@ -11,6 +11,8 @@ import {SIZES} from '../general/Constants';
 import axios from 'axios';
 const SinglePage = ({navigation}) => {
   const [detail, setDetail] = useState([]);
+  const [gallery, setGallery] = useState([]);
+
   useEffect(() => {
     axios
       .get('https://traveller.talrop.works/api/v1/places/view/27')
@@ -18,6 +20,7 @@ const SinglePage = ({navigation}) => {
         let {data, StatusCode} = response.data;
         if (StatusCode === 6000) {
           setDetail(data);
+          setGallery(data.gallery);
           console.log(detail);
         }
       })
@@ -58,6 +61,9 @@ const SinglePage = ({navigation}) => {
               style={styles.coverimage}
               source={{uri: `${detail.image}`}}
             />
+            {gallery.map(item => (
+              <Image style={styles.coverimage} source={{uri: `${item.image}`}}></Image>
+            ))}
           </View>
         </View>
       </View>
@@ -112,8 +118,8 @@ const styles = StyleSheet.create({
   categoryname: {
     marginRight: SIZES.wp('8%'),
     fontSize: SIZES.wp('4%'),
-    borderWidth: 1,
-    borderColor: '#000',
+    borderWidth: 2,
+    borderColor: 'lightgray',
     borderRadius: 15,
     paddingLeft: 8,
     paddingRight: 8,
