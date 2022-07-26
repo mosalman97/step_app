@@ -6,10 +6,12 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Text,
+  ScrollView,
 } from 'react-native';
 import {SIZES} from '../general/Constants';
 import axios from 'axios';
 import {useRoute} from '@react-navigation/native';
+import Slick from 'react-native-slick';
 const SinglePage = ({navigation}) => {
   const [detail, setDetail] = useState([]);
   const [gallery, setGallery] = useState([]);
@@ -24,7 +26,6 @@ const SinglePage = ({navigation}) => {
         if (StatusCode === 6000) {
           setDetail(data);
           setGallery(data.gallery);
-          console.log(detail);
         }
       })
       .catch(error => {
@@ -64,12 +65,21 @@ const SinglePage = ({navigation}) => {
               style={styles.coverimage}
               source={{uri: `${detail.image}`}}
             />
-
-            {gallery.map(item => (
-              <Image
-                style={styles.coverimage}
-                source={{uri: `${item.image}`}}></Image>
-            ))}
+            {/* <ScrollView horizontal={true}> */}
+            <Slick>
+              {gallery.map(item => (
+                <View key={item.id}>
+                  <Image
+                    style={styles.listimage}
+                    source={{uri: `${item.image}`}}></Image>
+                </View>
+              ))}
+            </Slick>
+            {/* </ScrollView> */}
+          </View>
+          <View style={styles.bottom}>
+            <Text style={styles.placehead}>Place Detail</Text>
+            <Text style={styles.para}>{detail.description}</Text>
           </View>
         </View>
       </View>
@@ -149,5 +159,20 @@ const styles = StyleSheet.create({
     width: SIZES.wp('90%'),
     height: SIZES.hp('25%'),
     borderRadius: 10,
+  },
+  listimage: {
+    width: SIZES.wp('90%'),
+    height: SIZES.hp('25%'),
+    borderRadius: 5,
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  placehead: {
+    fontSize: 15,
+    fontWeight: '600',
+    marginBottom: 5,
+  },
+  para: {
+    fontSize: 10,
   },
 });

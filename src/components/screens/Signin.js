@@ -34,7 +34,7 @@ const Signin = ({navigation}) => {
         console.log(error.response.data);
         alert('Enter Username and Password');
         if (error.response.status === 401) {
-          alert(error.response.data.detail);
+          setLoading(false)
         }
       });
     {
