@@ -11,7 +11,7 @@ import {
 import {SIZES} from '../general/Constants';
 import axios from 'axios';
 import {useRoute} from '@react-navigation/native';
-import Slick from 'react-native-slick';
+
 const SinglePage = ({navigation}) => {
   const [detail, setDetail] = useState([]);
   const [gallery, setGallery] = useState([]);
@@ -22,6 +22,7 @@ const SinglePage = ({navigation}) => {
     axios
       .get(`https://traveller.talrop.works/api/v1/places/view/${ids}`)
       .then(response => {
+        console.log('hellooo', response.data);
         let {data, StatusCode} = response.data;
         if (StatusCode === 6000) {
           setDetail(data);
@@ -65,8 +66,7 @@ const SinglePage = ({navigation}) => {
               style={styles.coverimage}
               source={{uri: `${detail.image}`}}
             />
-            {/* <ScrollView horizontal={true}> */}
-            <Slick>
+            <ScrollView horizontal={true}>
               {gallery.map(item => (
                 <View key={item.id}>
                   <Image
@@ -74,8 +74,7 @@ const SinglePage = ({navigation}) => {
                     source={{uri: `${item.image}`}}></Image>
                 </View>
               ))}
-            </Slick>
-            {/* </ScrollView> */}
+            </ScrollView>
           </View>
           <View style={styles.bottom}>
             <Text style={styles.placehead}>Place Detail</Text>
@@ -173,6 +172,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   para: {
-    fontSize: 10,
+    fontSize:10,
   },
 });
