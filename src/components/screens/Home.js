@@ -15,6 +15,9 @@ import {SIZES} from '../general/Constants';
 
 const Home = ({navigation}) => {
   const [places, setPlaces] = useState([]);
+  const addid = (id)=>{
+      navigation.navigate('Singlepage',{id});
+  }
   // const [isLoading, setLoading] = useState(false);
   useEffect(() => {
     axios.get('https://traveller.talrop.works/api/v1/places').then(response => {
@@ -45,19 +48,21 @@ const Home = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           {places.map(item => (
-            <View key={item.id} style={styles.item}>
-              <View>
-                <Image source={{uri: `${item.image}`}} style={styles.image} />
+            <TouchableOpacity onPress={()=>addid(item.id)}>
+              <View key={item.id} style={styles.item}>
+                <View>
+                  <Image source={{uri: `${item.image}`}} style={styles.image} />
+                </View>
+                <Text style={styles.name}>{item.name}</Text>
+                <View style={styles.location}>
+                  <Image
+                    style={styles.locationimage}
+                    source={require('../../assets/images/location.png')}
+                  />
+                  <Text style={styles.locationname}>{item.location}</Text>
+                </View>
               </View>
-              <Text style={styles.name}>{item.name}</Text>
-              <View style={styles.location}>
-                <Image
-                  style={styles.locationimage}
-                  source={require('../../assets/images/location.png')}
-                />
-                <Text style={styles.locationname}>{item.location}</Text>
-              </View>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>

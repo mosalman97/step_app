@@ -9,13 +9,16 @@ import {
 } from 'react-native';
 import {SIZES} from '../general/Constants';
 import axios from 'axios';
+import {useRoute} from '@react-navigation/native';
 const SinglePage = ({navigation}) => {
   const [detail, setDetail] = useState([]);
   const [gallery, setGallery] = useState([]);
-
+  const [ids, setId] = useState(0);
+  const route = useRoute();
   useEffect(() => {
+    setId(route.params.id);
     axios
-      .get('https://traveller.talrop.works/api/v1/places/view/27')
+      .get(`https://traveller.talrop.works/api/v1/places/view/${ids}`)
       .then(response => {
         let {data, StatusCode} = response.data;
         if (StatusCode === 6000) {
@@ -27,7 +30,7 @@ const SinglePage = ({navigation}) => {
       .catch(error => {
         console.log(error);
       });
-  }, []);
+  }, [ids]);
   return (
     <SafeAreaView>
       <View style={styles.contaniner}>
@@ -61,8 +64,11 @@ const SinglePage = ({navigation}) => {
               style={styles.coverimage}
               source={{uri: `${detail.image}`}}
             />
+
             {gallery.map(item => (
-              <Image style={styles.coverimage} source={{uri: `${item.image}`}}></Image>
+              <Image
+                style={styles.coverimage}
+                source={{uri: `${item.image}`}}></Image>
             ))}
           </View>
         </View>
