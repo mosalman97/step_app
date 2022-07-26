@@ -21,9 +21,10 @@ const Home = ({navigation}) => {
       let {data, StatusCode} = response.data;
       if (StatusCode === 6000) {
         setPlaces(data);
-        // setLoading(false);
       }
-    });
+    }).catch((error)=>{
+      console.log(error)
+    })
   }, []);
   return (
     <SafeAreaView>
@@ -101,12 +102,12 @@ const styles = StyleSheet.create({
   button: {
     width: SIZES.wp('30%'),
     height: SIZES.hp('6%'),
-    backgroundColor: 'blue',
+    backgroundColor: '#0FA76F',
+    borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 30,
-    borderColor: 'black',
-    borderWidth: 2,
+    borderColor: '#0FA76F',
+    borderWidth: 1,
   },
   buttontext: {
     color: 'white',
