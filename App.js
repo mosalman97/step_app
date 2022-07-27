@@ -1,26 +1,15 @@
 import React from 'react';
 import {SafeAreaView, View, Text} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Signin from './src/components/screens/Signin';
-import Signup from './src/components/screens/Signup';
-import Home from './src/components/screens/Home';
-import SinglePage from './src/components/screens/SinglePage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Store from './src/components/context/Store';
+import Navigation from './src/components/Navigation';
 
 const App = () => {
-  const Stack = createNativeStackNavigator();
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Sigin"
-        screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Login" component={Signin} />
-        <Stack.Screen name="Signin" component={Signup} />
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Singlepage" component={SinglePage} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={{flex: 1}}>
+      <Store>
+        <Navigation />
+      </Store>
+    </View>
   );
 };
 

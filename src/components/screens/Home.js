@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   StyleSheet,
   Text,
@@ -52,8 +52,8 @@ const Home = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           {places.map(item => (
-            <TouchableOpacity onPress={() => addid(item.id)}>
-              <View key={item.id} style={styles.item}>
+            <TouchableOpacity onPress={() => addid(item.id)} key={item.id}>
+              <View style={styles.item}>
                 <View>
                   <Image source={{uri: `${item.image}`}} style={styles.image} />
                 </View>

@@ -1,4 +1,4 @@
-import React, {isValidElement, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -9,13 +9,14 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {SIZES} from '../general/Constants';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Context } from '../context/Store';
 import axios from 'axios';
 
 const Signin = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setLoading] = useState(false);
+  const {dispatch} = useContext(Context);
   const login = () => {
     axios
       .post('https://traveller.talrop.works/api/v1/auth/token/', {
@@ -23,12 +24,17 @@ const Signin = ({navigation}) => {
         password,
       })
       .then(response => {
-        let {StatusCode, data} = response.data;
-        let Statuscode = StatusCode;
-        AsyncStorage.setItem('data', JSON.stringify(data));
+        let data = response.data;
         navigation.navigate('Home');
-        setLoading(false);
-        setUsername(''), setPassword('');
+            setLoading(false);
+            setUsername(''), setPassword('');
+              dispatch({
+                type: 'user_loged',
+                user_data: {
+                  islogged: true,
+                  access_token:data.access,
+                },
+              });
       })
       .catch(error => {
         console.log(error.response.data);
