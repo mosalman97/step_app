@@ -2,14 +2,13 @@ import React, {createContext, useReducer} from 'react';
 import Reducer from './Reducer';
 
 const initialState = {
-  user_data: {
+  userData: {
     islogged: false,
     access_token: '',
   },
 };
-console.log(initialState);
 
-const Store = ({childern}) => {
+const Store = ({children}) => {
   const [state, dispatch] = useReducer(Reducer, initialState);
 
   const checkRole = role => {
@@ -18,7 +17,7 @@ const Store = ({childern}) => {
 
   return (
     <Context.Provider value={{state, dispatch, checkRole}}>
-      {childern}
+      {children}
     </Context.Provider>
   );
 };

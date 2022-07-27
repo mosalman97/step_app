@@ -11,11 +11,14 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {SIZES} from '../general/Constants';
+import { Context } from '../context/Store';
 // import Loading from '../lottie/Loading';
 
 
 const Home = ({navigation}) => {
   const [places, setPlaces] = useState([]);
+  const {state} = useContext(Context)
+   console.log(state,"salman is oke")
   const addid = id => {
     navigation.navigate('Singlepage', {id});
   };

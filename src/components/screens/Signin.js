@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {SIZES} from '../general/Constants';
-import { Context } from '../context/Store';
+import {Context} from '../context/Store';
 import axios from 'axios';
 
 const Signin = ({navigation}) => {
@@ -26,15 +26,15 @@ const Signin = ({navigation}) => {
       .then(response => {
         let data = response.data;
         navigation.navigate('Home');
-            setLoading(false);
-            setUsername(''), setPassword('');
-              dispatch({
-                type: 'user_loged',
-                user_data: {
-                  islogged: true,
-                  access_token:data.access,
-                },
-              });
+        setLoading(false);
+        setUsername(''), setPassword('');
+        dispatch({
+          type: 'userData',
+          userData: {
+            islogged: true,
+            access_token: data.access,
+          },
+        });
       })
       .catch(error => {
         console.log(error.response.data);
@@ -47,6 +47,7 @@ const Signin = ({navigation}) => {
       username && password ? setLoading(true) : setLoading(false);
     }
   };
+
   return (
     <SafeAreaView>
       <View>

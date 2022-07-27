@@ -2,12 +2,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Reducer = (state, action) => {
   switch (action.type) {
-    case 'user_loged':
-      const user_data = {...state.user_data, ...action.user_data};
-      AsyncStorage.setItem('user_data', JSON.stringify(user_data));
+    case 'userData':
+      const userData = {...state.userData, ...action.userData};
+      AsyncStorage.setItem('userData', JSON.stringify(userData));
       return {
         ...state,
-        user_data: user_data,
+        userData: userData,
       };
     default:
       return state;

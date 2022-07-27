@@ -34,6 +34,7 @@ const SinglePage = ({navigation}) => {
   }, [ids]);
   return (
     <SafeAreaView>
+      <ScrollView>
         <View style={styles.contaniner}>
           <View style={styles.head}>
             <Image
@@ -81,7 +82,7 @@ const SinglePage = ({navigation}) => {
             </View>
           </View>
         </View>
-
+      </ScrollView>
     </SafeAreaView>
   );
 };
