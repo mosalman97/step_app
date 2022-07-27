@@ -13,21 +13,25 @@ import axios from 'axios';
 import {SIZES} from '../general/Constants';
 // import Loading from '../lottie/Loading';
 
+
 const Home = ({navigation}) => {
   const [places, setPlaces] = useState([]);
-  const addid = (id)=>{
-      navigation.navigate('Singlepage',{id});
-  }
+  const addid = id => {
+    navigation.navigate('Singlepage', {id});
+  };
   // const [isLoading, setLoading] = useState(false);
   useEffect(() => {
-    axios.get('https://traveller.talrop.works/api/v1/places').then(response => {
-      let {data, StatusCode} = response.data;
-      if (StatusCode === 6000) {
-        setPlaces(data);
-      }
-    }).catch((error)=>{
-      console.log(error)
-    })
+    axios
+      .get('https://traveller.talrop.works/api/v1/places')
+      .then(response => {
+        let {data, StatusCode} = response.data;
+        if (StatusCode === 6000) {
+          setPlaces(data);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }, []);
   return (
     <SafeAreaView>
@@ -48,7 +52,7 @@ const Home = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           {places.map(item => (
-            <TouchableOpacity onPress={()=>addid(item.id)}>
+            <TouchableOpacity onPress={() => addid(item.id)}>
               <View key={item.id} style={styles.item}>
                 <View>
                   <Image source={{uri: `${item.image}`}} style={styles.image} />

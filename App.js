@@ -6,6 +6,7 @@ import Signin from './src/components/screens/Signin';
 import Signup from './src/components/screens/Signup';
 import Home from './src/components/screens/Home';
 import SinglePage from './src/components/screens/SinglePage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const App = () => {
   const Stack = createNativeStackNavigator();

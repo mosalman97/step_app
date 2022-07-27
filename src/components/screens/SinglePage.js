@@ -22,7 +22,6 @@ const SinglePage = ({navigation}) => {
     axios
       .get(`https://traveller.talrop.works/api/v1/places/view/${ids}`)
       .then(response => {
-        console.log('hellooo', response.data);
         let {data, StatusCode} = response.data;
         if (StatusCode === 6000) {
           setDetail(data);
@@ -35,53 +34,54 @@ const SinglePage = ({navigation}) => {
   }, [ids]);
   return (
     <SafeAreaView>
-      <View style={styles.contaniner}>
-        <View style={styles.head}>
-          <Image
-            style={styles.logo}
-            source={require('../../assets/images/logo.png')}
-          />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.buttontext}>Logout</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <View style={styles.heading}>
-            <Text style={styles.title}>{detail.name}</Text>
+        <View style={styles.contaniner}>
+          <View style={styles.head}>
+            <Image
+              style={styles.logo}
+              source={require('../../assets/images/logo.png')}
+            />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.buttontext}>Logout</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.category}>
-            <Text style={styles.categoryname}>{detail.category_name}</Text>
-            <View style={styles.locationcontainer}>
+          <View>
+            <View style={styles.heading}>
+              <Text style={styles.title}>{detail.name}</Text>
+            </View>
+            <View style={styles.category}>
+              <Text style={styles.categoryname}>{detail.category_name}</Text>
+              <View style={styles.locationcontainer}>
+                <Image
+                  style={styles.locationimage}
+                  source={require('../../assets/images/location.png')}
+                />
+                <Text style={styles.locationname}>{detail.location}</Text>
+              </View>
+            </View>
+            <View style={styles.gallery}>
               <Image
-                style={styles.locationimage}
-                source={require('../../assets/images/location.png')}
+                style={styles.coverimage}
+                source={{uri: `${detail.image}`}}
               />
-              <Text style={styles.locationname}>{detail.location}</Text>
+              <ScrollView horizontal={true}>
+                {gallery.map(item => (
+                  <View key={item.id}>
+                    <Image
+                      style={styles.listimage}
+                      source={{uri: `${item.image}`}}></Image>
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+            <View style={styles.bottom}>
+              <Text style={styles.placehead}>Place Detail</Text>
+              <Text style={styles.para}>{detail.description}</Text>
             </View>
           </View>
-          <View style={styles.gallery}>
-            <Image
-              style={styles.coverimage}
-              source={{uri: `${detail.image}`}}
-            />
-            <ScrollView horizontal={true}>
-              {gallery.map(item => (
-                <View key={item.id}>
-                  <Image
-                    style={styles.listimage}
-                    source={{uri: `${item.image}`}}></Image>
-                </View>
-              ))}
-            </ScrollView>
-          </View>
-          <View style={styles.bottom}>
-            <Text style={styles.placehead}>Place Detail</Text>
-            <Text style={styles.para}>{detail.description}</Text>
-          </View>
         </View>
-      </View>
+
     </SafeAreaView>
   );
 };
@@ -172,6 +172,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   para: {
-    fontSize:10,
+    fontSize:13,
   },
 });

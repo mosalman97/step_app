@@ -34,7 +34,7 @@ const Signin = ({navigation}) => {
         console.log(error.response.data);
         alert('Enter Username and Password');
         if (error.response.status === 401) {
-          setLoading(false)
+          setLoading(false);
         }
       });
     {
@@ -43,36 +43,38 @@ const Signin = ({navigation}) => {
   };
   return (
     <SafeAreaView>
-      <View style={StyleSheet.container}>
-        <View style={styles.inputcontainer}>
-          <Text style={styles.heading}>Log In</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Username"
-            onChangeText={username => setUsername(username)}
-            value={username}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Password"
-            onChangeText={password => setPassword(password)}
-            value={password}
-          />
+      <View>
+        <View style={StyleSheet.container}>
+          <View style={styles.inputcontainer}>
+            <Text style={styles.heading}>Log In</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Username"
+              onChangeText={username => setUsername(username)}
+              value={username}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Password"
+              onChangeText={password => setPassword(password)}
+              value={password}
+            />
+          </View>
+          <TouchableOpacity style={styles.button} onPress={login}>
+            {login && isLoading ? (
+              <ActivityIndicator size="small" color="#0000ff" />
+            ) : (
+              <Text style={styles.signin}>Signin</Text>
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.createaccount}
+            onPress={() => navigation.navigate('Signin')}>
+            <Text>
+              Create New Account ? <Text style={styles.login}>Sign up</Text>
+            </Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.button} onPress={login}>
-          {login && isLoading ? (
-            <ActivityIndicator size="small" color="#0000ff" />
-          ) : (
-            <Text style={styles.signin}>Signin</Text>
-          )}
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.createaccount}
-          onPress={() => navigation.navigate('Signin')}>
-          <Text>
-            Create New Account ? <Text style={styles.login}>Sign up</Text>
-          </Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
