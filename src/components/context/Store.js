@@ -11,8 +11,15 @@ console.log(initialState);
 
 const Store = ({childern}) => {
   const [state, dispatch] = useReducer(Reducer, initialState);
+
+  const checkRole = role => {
+    return state.roles.includes(role);
+  };
+
   return (
-    <Context.Provider value={{state, dispatch}}>{childern}</Context.Provider>
+    <Context.Provider value={{state, dispatch, checkRole}}>
+      {childern}
+    </Context.Provider>
   );
 };
 
