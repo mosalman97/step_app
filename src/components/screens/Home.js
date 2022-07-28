@@ -8,21 +8,19 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {SIZES} from '../general/Constants';
-import { Context } from '../context/Store';
-// import Loading from '../lottie/Loading';
-
+import {Context} from '../context/Store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = ({navigation}) => {
   const [places, setPlaces] = useState([]);
-  const {state} = useContext(Context)
-   console.log(state,"salman is oke")
+  const {dispatch,state} = useContext(Context);
+  const [isLoading,setLoading] = useState(true)
   const addid = id => {
     navigation.navigate('Singlepage', {id});
   };
-  // const [isLoading, setLoading] = useState(false);
+
   useEffect(() => {
     axios
       .get('https://traveller.talrop.works/api/v1/places')
@@ -30,27 +28,32 @@ const Home = ({navigation}) => {
         let {data, StatusCode} = response.data;
         if (StatusCode === 6000) {
           setPlaces(data);
+          setLoading(false)
         }
       })
       .catch(error => {
         console.log(error);
       });
   }, []);
+
+  //logout function
+  const logout = () => {
+     dispatch({
+       type: 'userData',
+       userData: {
+         islogged: false,
+         access_token: "",
+       },
+     });
+    navigation.navigate('Login');
+  };
+   console.log(AsyncStorage.getItem('userData'), 'getitems');
   return (
     <SafeAreaView>
       <View style={styles.buttoncontainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity style={styles.button} onPress={logout}>
           <Text style={styles.buttontext}>Logout</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity style={styles.button}>
-          <Text
-            style={styles.buttontext}
-            onPress={() => navigation.navigate('Signin')}>
-            SignUp
-          </Text>
-        </TouchableOpacity> */}
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>

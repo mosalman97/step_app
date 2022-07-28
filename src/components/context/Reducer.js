@@ -5,6 +5,7 @@ const Reducer = (state, action) => {
     case 'userData':
       const userData = {...state.userData, ...action.userData};
       AsyncStorage.setItem('userData', JSON.stringify(userData));
+     
       return {
         ...state,
         userData: userData,

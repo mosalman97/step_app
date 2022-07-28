@@ -14,7 +14,7 @@ const Auth = () => {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator
-      initialRouteName="Sigin"
+      initialRouteName="login"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Login" component={Signin} />
       <Stack.Screen name="Signin" component={Signup} />
@@ -35,11 +35,6 @@ const Profile = () => {
 
 const Navigation = () => {
   const {state} = useContext(Context);
-  // const [isLogged,setLogged] = useState(false);
-  // useEffect(()=>{
-  //   state.userData.islogged ? setLogged(true) : setLogged(false)
-  // },[])
-  // }
   return (
     <NavigationContainer>
       {state.userData.islogged && state.userData.access_token ? (
