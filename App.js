@@ -11,7 +11,6 @@ const App = () => {
         <Navigation />
       </Store>
     </View>
-
   );
 };
 

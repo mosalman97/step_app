@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -12,12 +12,14 @@ import {SIZES} from '../general/Constants';
 import axios from 'axios';
 import {useRoute} from '@react-navigation/native';
 import Loader from '../../assets/lottie/Loader';
+import {Context} from '../context/Store';
 
 const SinglePage = ({navigation}) => {
   const [detail, setDetail] = useState([]);
   const [gallery, setGallery] = useState([]);
   const [ids, setId] = useState(0);
-  const [isLoading,setLoading] = useState(true)
+  const [isLoading, setLoading] = useState(true);
+  const {dispatch} = useContext(Context);
   const route = useRoute();
   useEffect(() => {
     setId(route.params.id);
@@ -28,68 +30,75 @@ const SinglePage = ({navigation}) => {
         if (StatusCode === 6000) {
           setDetail(data);
           setGallery(data.gallery);
-          setLoading(false)
+          setLoading(false);
         }
       })
       .catch(error => {
         console.log(error);
       });
   }, [ids]);
-  return (
+  //logout function
+  const logout = () => {
+    dispatch({
+      type: 'userData',
+      userData: {
+        islogged: false,
+        access_token: '',
+      },
+    });
+    // navigation.navigate('Login');
+  };
+  return isLoading ? (
+    <Loader />
+  ) : (
     <SafeAreaView>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <ScrollView>
-          <View style={styles.contaniner}>
-            <View style={styles.head}>
-              <Image
-                style={styles.logo}
-                source={require('../../assets/images/logo.png')}
-              />
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('Login')}>
-                <Text style={styles.buttontext}>Logout</Text>
-              </TouchableOpacity>
+      <ScrollView>
+        <View style={styles.contaniner}>
+          <View style={styles.head}>
+            <Image
+              style={styles.logo}
+              source={require('../../assets/images/logo.png')}
+            />
+            <TouchableOpacity style={styles.button} onPress={logout}>
+              <Text style={styles.buttontext}>Logout</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <View style={styles.heading}>
+              <Text style={styles.title}>{detail.name}</Text>
             </View>
-            <View>
-              <View style={styles.heading}>
-                <Text style={styles.title}>{detail.name}</Text>
-              </View>
-              <View style={styles.category}>
-                <Text style={styles.categoryname}>{detail.category_name}</Text>
-                <View style={styles.locationcontainer}>
-                  <Image
-                    style={styles.locationimage}
-                    source={require('../../assets/images/location.png')}
-                  />
-                  <Text style={styles.locationname}>{detail.location}</Text>
-                </View>
-              </View>
-              <View style={styles.gallery}>
+            <View style={styles.category}>
+              <Text style={styles.categoryname}>{detail.category_name}</Text>
+              <View style={styles.locationcontainer}>
                 <Image
-                  style={styles.coverimage}
-                  source={{uri: `${detail.image}`}}
+                  style={styles.locationimage}
+                  source={require('../../assets/images/location.png')}
                 />
-                <ScrollView horizontal={true}>
-                  {gallery.map(item => (
-                    <View key={item.id}>
-                      <Image
-                        style={styles.listimage}
-                        source={{uri: `${item.image}`}}></Image>
-                    </View>
-                  ))}
-                </ScrollView>
+                <Text style={styles.locationname}>{detail.location}</Text>
               </View>
-              <View style={styles.bottom}>
-                <Text style={styles.placehead}>Place Detail</Text>
-                <Text style={styles.para}>{detail.description}</Text>
-              </View>
+            </View>
+            <View style={styles.gallery}>
+              <Image
+                style={styles.coverimage}
+                source={{uri: `${detail.image}`}}
+              />
+              <ScrollView horizontal={true}>
+                {gallery.map(item => (
+                  <View key={item.id}>
+                    <Image
+                      style={styles.listimage}
+                      source={{uri: `${item.image}`}}></Image>
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+            <View style={styles.bottom}>
+              <Text style={styles.placehead}>Place Detail</Text>
+              <Text style={styles.para}>{detail.description}</Text>
             </View>
           </View>
-        </ScrollView>
-      )}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -180,6 +189,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   para: {
-    fontSize:13,
+    fontSize: 13,
   },
 });

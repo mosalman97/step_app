@@ -12,6 +12,7 @@ import {SIZES} from '../general/Constants';
 import {Context} from '../context/Store';
 import axios from 'axios';
 
+
 const Signin = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +26,6 @@ const Signin = ({navigation}) => {
       })
       .then(response => {
         let data = response.data;
-        navigation.navigate('Home');
         setLoading(false);
         setUsername(''), setPassword('');
         dispatch({

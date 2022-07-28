@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   TextInput,
   View,
@@ -12,12 +12,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SIZES} from '../general/Constants';
 import axios from 'axios';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import { Context } from '../context/Store';
 
 const Signup = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setLoading] = useState(false);
+  const {dispatch} = useContext(Context)
 
   const handlesubmit = () => {
     axios
@@ -29,8 +31,13 @@ const Signup = ({navigation}) => {
       .then(response => {
         let {StatusCode, data} = response.data;
         if (StatusCode === 6000) {
-          AsyncStorage.setItem('data', JSON.stringify(data));
-          navigation.navigate('Home');
+          dispatch({
+            type: 'userData',
+            userData: {
+              islogged: true,
+              access_token: data.access,
+            },
+          });
           setEmail(''), setPassword(''), setUsername('');
           setLoading(false);
         } else {

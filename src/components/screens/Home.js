@@ -12,10 +12,11 @@ import axios from 'axios';
 import {SIZES} from '../general/Constants';
 import {Context} from '../context/Store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loader from '../../assets/lottie/Loader';
 
 const Home = ({navigation}) => {
   const [places, setPlaces] = useState([]);
-  const {dispatch,state} = useContext(Context);
+  const {dispatch} = useContext(Context);
   const [isLoading,setLoading] = useState(true)
   const addid = id => {
     navigation.navigate('Singlepage', {id});
@@ -45,11 +46,14 @@ const Home = ({navigation}) => {
          access_token: "",
        },
      });
-    navigation.navigate('Login');
+    // navigation.navigate('Login');
   };
    console.log(AsyncStorage.getItem('userData'), 'getitems');
-  return (
-    <SafeAreaView>
+  return  (
+    isLoading ? (
+      <Loader/>
+    ):(
+       <SafeAreaView>
       <View style={styles.buttoncontainer}>
         <TouchableOpacity style={styles.button} onPress={logout}>
           <Text style={styles.buttontext}>Logout</Text>
@@ -77,6 +81,8 @@ const Home = ({navigation}) => {
         </View>
       </ScrollView>
     </SafeAreaView>
+    )
+   
   );
 };
 
