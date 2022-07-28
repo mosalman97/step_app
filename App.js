@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {SafeAreaView, View, Text} from 'react-native';
 import Loader from './src/assets/lottie/Loader';
 import Store from './src/components/context/Store';
 import Navigation from './src/components/Navigation';
@@ -11,6 +11,7 @@ const App = () => {
         <Navigation />
       </Store>
     </View>
+
   );
 };
 

@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Text,
   ActivityIndicator,
+  Platform,
+  addons,
 } from 'react-native';
 import {SIZES} from '../general/Constants';
 import {Context} from '../context/Store';
@@ -117,7 +119,14 @@ const styles = StyleSheet.create({
     fontSize: SIZES.hp('3%'),
   },
   button: {
-    backgroundColor: '#0FA76F',
+    ...Platform.select({
+      ios: {
+        backgroundColor: 'red',
+      },
+      android: {
+        backgroundColor: '#0FA76F',
+      },
+    }),
     borderColor: '#0FA76F',
     borderWidth: 1,
     marginTop: 30,
