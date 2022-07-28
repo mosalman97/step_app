@@ -14,12 +14,11 @@ import {SIZES} from '../general/Constants';
 import {Context} from '../context/Store';
 import axios from 'axios';
 
-
 const Signin = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setLoading] = useState(false);
-  const {dispatch} = useContext(Context);
+  const {dispatch, state} = useContext(Context);
   const login = () => {
     axios
       .post('https://traveller.talrop.works/api/v1/auth/token/', {
@@ -69,7 +68,12 @@ const Signin = ({navigation}) => {
               value={password}
             />
           </View>
-          <TouchableOpacity style={styles.button} onPress={login}>
+          <TouchableOpacity
+            style={{
+              ...styles.button,
+              backgroundColor: `${username && password ? '#0FA76F' : 'gray'}`,
+            }}
+            onPress={login}>
             {login && isLoading ? (
               <ActivityIndicator size="small" color="#0000ff" />
             ) : (
@@ -119,14 +123,14 @@ const styles = StyleSheet.create({
     fontSize: SIZES.hp('3%'),
   },
   button: {
-    ...Platform.select({
-      ios: {
-        backgroundColor: 'red',
-      },
-      android: {
-        backgroundColor: '#0FA76F',
-      },
-    }),
+    // ...Platform.select({
+    //   ios: {
+    //     backgroundColor: 'red',
+    //   },
+    //   android: {
+    //     backgroundColor: '#0FA76F',
+    //   },
+    // }),
     borderColor: '#0FA76F',
     borderWidth: 1,
     marginTop: 30,
