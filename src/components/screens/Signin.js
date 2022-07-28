@@ -71,7 +71,11 @@ const Signin = ({navigation}) => {
           <TouchableOpacity
             style={{
               ...styles.button,
-              backgroundColor: `${username && password ? '#0FA76F' : 'gray'}`,
+              backgroundColor: `${
+                username && password
+                  ? '#0FA76F'
+                  : 'gray'
+              }`,
             }}
             onPress={login}>
             {login && isLoading ? (
