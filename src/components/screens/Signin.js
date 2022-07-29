@@ -15,11 +15,13 @@ import {Context} from '../context/Store';
 import axios from 'axios';
 
 const Signin = ({navigation}) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('Ammu@example.com');
+  const [password, setPassword] = useState('123456');
   const [isLoading, setLoading] = useState(false);
-  const {dispatch, state} = useContext(Context);
-  const login = () => {
+  const {state, dispatch} = useContext(Context);
+
+  const signIn = () => {
+    setLoading(true);
     axios
       .post('https://traveller.talrop.works/api/v1/auth/token/', {
         username,
@@ -30,7 +32,7 @@ const Signin = ({navigation}) => {
         setLoading(false);
         setUsername(''), setPassword('');
         dispatch({
-          type: 'userData',
+          type: 'UPDATE_USER_DATA',
           userData: {
             islogged: true,
             access_token: data.access,
@@ -44,9 +46,6 @@ const Signin = ({navigation}) => {
           setLoading(false);
         }
       });
-    {
-      username && password ? setLoading(true) : setLoading(false);
-    }
   };
 
   return (
@@ -71,14 +70,10 @@ const Signin = ({navigation}) => {
           <TouchableOpacity
             style={{
               ...styles.button,
-              backgroundColor: `${
-                username && password
-                  ? '#0FA76F'
-                  : 'gray'
-              }`,
+              backgroundColor: `${username && password ? '#0FA76F' : 'gray'}`,
             }}
-            onPress={login}>
-            {login && isLoading ? (
+            onPress={signIn}>
+            {isLoading ? (
               <ActivityIndicator size="small" color="#0000ff" />
             ) : (
               <Text style={styles.signin}>Signin</Text>

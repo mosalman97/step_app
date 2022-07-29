@@ -14,7 +14,7 @@ import {useRoute} from '@react-navigation/native';
 import Loader from '../../assets/lottie/Loader';
 import {Context} from '../context/Store';
 
-const SinglePage = ({navigation}) => {
+const SinglePage = () => {
   const [detail, setDetail] = useState([]);
   const [gallery, setGallery] = useState([]);
   const [ids, setId] = useState(0);
@@ -40,7 +40,7 @@ const SinglePage = ({navigation}) => {
   //logout function
   const logout = () => {
     dispatch({
-      type: 'userData',
+      type: 'UPDATE_USER_DATA',
       userData: {
         islogged: false,
         access_token: '',

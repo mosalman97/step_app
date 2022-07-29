@@ -7,19 +7,20 @@ import {
   TouchableOpacity,
   Text,
   ActivityIndicator,
+  Button,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SIZES} from '../general/Constants';
 import axios from 'axios';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import { Context } from '../context/Store';
+import {Context} from '../context/Store';
 
 const Signup = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setLoading] = useState(false);
-  const {dispatch} = useContext(Context)
+  const {state, dispatch} = useContext(Context);
 
   const handlesubmit = () => {
     axios
@@ -83,7 +84,12 @@ const Signup = ({navigation}) => {
             value={password}
           />
         </View>
-        <TouchableOpacity style={styles.button} onPress={handlesubmit}>
+        <TouchableOpacity
+          style={{
+            ...styles.button,
+            backgroundColor: `${username && password ? '#0FA76F' : 'gray'}`,
+          }}
+          onPress={handlesubmit}>
           {handlesubmit && isLoading ? (
             <ActivityIndicator size="small" color="#0000ff" />
           ) : (
@@ -133,7 +139,6 @@ const styles = StyleSheet.create({
     fontSize: SIZES.hp('3%'),
   },
   button: {
-    backgroundColor: '#0FA76F',
     borderColor: '#0FA76F',
     borderWidth: 1,
     marginTop: 40,

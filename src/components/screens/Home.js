@@ -11,13 +11,12 @@ import {
 import axios from 'axios';
 import {SIZES} from '../general/Constants';
 import {Context} from '../context/Store';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../../assets/lottie/Loader';
 
 const Home = ({navigation}) => {
   const [places, setPlaces] = useState([]);
-  const {dispatch} = useContext(Context);
-  const [isLoading,setLoading] = useState(true)
+  const {state, dispatch} = useContext(Context);
+  const [isLoading, setLoading] = useState(true);
   const addid = id => {
     navigation.navigate('Singlepage', {id});
   };
@@ -29,7 +28,7 @@ const Home = ({navigation}) => {
         let {data, StatusCode} = response.data;
         if (StatusCode === 6000) {
           setPlaces(data);
-          setLoading(false)
+          setLoading(false);
         }
       })
       .catch(error => {
@@ -39,21 +38,18 @@ const Home = ({navigation}) => {
 
   //logout function
   const logout = () => {
-     dispatch({
-       type: 'userData',
-       userData: {
-         islogged: false,
-         access_token: "",
-       },
-     });
-    // navigation.navigate('Login');
+    dispatch({
+      type: 'UPDATE_USER_DATA',
+      userData: {
+        islogged: false,
+        access_token: '',
+      },
+    });
   };
-   console.log(AsyncStorage.getItem('userData'), 'getitems');
-  return  (
-    isLoading ? (
-      <Loader/>
-    ):(
-       <SafeAreaView>
+  return isLoading ? (
+    <Loader />
+  ) : (
+    <SafeAreaView>
       <View style={styles.buttoncontainer}>
         <TouchableOpacity style={styles.button} onPress={logout}>
           <Text style={styles.buttontext}>Logout</Text>
@@ -81,8 +77,6 @@ const Home = ({navigation}) => {
         </View>
       </ScrollView>
     </SafeAreaView>
-    )
-   
   );
 };
 

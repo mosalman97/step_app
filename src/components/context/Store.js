@@ -7,7 +7,7 @@ const initialState = {
     access_token: '',
   },
 };
-console.log(initialState,"helooooooooooo")
+
 const Store = ({children}) => {
   const [state, dispatch] = useReducer(Reducer, initialState);
 

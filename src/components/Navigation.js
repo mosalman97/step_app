@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView, View, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //components
 import Signin from '../components/screens/Signin';
@@ -10,8 +11,9 @@ import Home from '../components/screens/Home';
 import SinglePage from '../components/screens/SinglePage';
 import {Context} from './context/Store';
 
+const Stack = createNativeStackNavigator();
+
 const Auth = () => {
-  const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator
       initialRouteName="login"
@@ -22,7 +24,6 @@ const Auth = () => {
   );
 };
 const Profile = () => {
-  const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator
       initialRouteName="Home"
@@ -34,14 +35,21 @@ const Profile = () => {
 };
 
 const Navigation = () => {
-  const {state} = useContext(Context);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      let userDataStored = await AsyncStorage.getItem('userData');
+      userDataStored = JSON.parse(userDataStored);
+      dispatch({
+        type: 'UPDATE_USER_DATA',
+        userData: userDataStored,
+      });
+    };
+    fetchUserData();
+  }, []);
+  const {state, dispatch} = useContext(Context);
   return (
     <NavigationContainer>
-      {state.userData.islogged && state.userData.access_token ? (
-        <Profile />
-      ) : (
-        <Auth />
-      )}
+      {state.userData.islogged ? <Profile /> : <Auth />}
     </NavigationContainer>
   );
 };
