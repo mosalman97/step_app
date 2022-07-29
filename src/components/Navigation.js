@@ -34,7 +34,6 @@ const Profile = () => {
   );
 };
 
-let userDataStored = null;
 const Navigation = () => {
   const {state, dispatch} = useContext(Context);
   // console.log(state.userData, '-=-=-=-=-');
@@ -42,7 +41,6 @@ const Navigation = () => {
     const fetchUserData = async () => {
       userDataStored = await AsyncStorage.getItem('userData');
       userDataStored = JSON.parse(userDataStored);
-      console.log(userDataStored, '==========');
       dispatch({
         type: 'UPDATE_USER_DATA',
         userData: userDataStored,
@@ -50,7 +48,6 @@ const Navigation = () => {
     };
     fetchUserData();
   }, []);
-
 
   return (
     <NavigationContainer>

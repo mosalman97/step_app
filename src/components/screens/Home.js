@@ -12,11 +12,13 @@ import axios from 'axios';
 import {SIZES} from '../general/Constants';
 import {Context} from '../context/Store';
 import Loader from '../../assets/lottie/Loader';
+import {TextInput} from 'react-native';
 
 const Home = ({navigation}) => {
   const [places, setPlaces] = useState([]);
   const {state, dispatch} = useContext(Context);
   const [isLoading, setLoading] = useState(true);
+  const [searchData, setSearchData] = useState('');
   const addid = id => {
     navigation.navigate('Singlepage', {id});
   };
@@ -46,6 +48,7 @@ const Home = ({navigation}) => {
       },
     });
   };
+
   return isLoading ? (
     <Loader />
   ) : (
@@ -54,6 +57,11 @@ const Home = ({navigation}) => {
         <TouchableOpacity style={styles.button} onPress={logout}>
           <Text style={styles.buttontext}>Logout</Text>
         </TouchableOpacity>
+        <TextInput
+          placeholder="Searching..."
+          style={styles.searchbar}
+          onChangeText={searchData => setSearchData(searchData)}
+        />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
@@ -98,7 +106,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 4,
     marginBottom: 4,
-    color:"black"
+    color: 'black',
   },
   location: {
     flexDirection: 'row',
@@ -113,7 +121,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   buttoncontainer: {
-    alignSelf: 'center',
+    alignItems: 'center',
   },
   button: {
     width: SIZES.wp('30%'),
@@ -128,5 +136,15 @@ const styles = StyleSheet.create({
   buttontext: {
     color: 'white',
     fontSize: SIZES.hp('3%'),
+  },
+  searchbar: {
+    marginTop: 20,
+    width: SIZES.wp('60%'),
+    height: SIZES.hp('6%'),
+    borderColor: '#0FA76F',
+    borderWidth: 1,
+    alignSelf: 'center',
+    borderRadius: 10,
+    paddingHorizontal: 15,
   },
 });

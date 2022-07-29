@@ -15,8 +15,8 @@ import {Context} from '../context/Store';
 import axios from 'axios';
 
 const Signin = ({navigation}) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('Ammu@example.com');
+  const [password, setPassword] = useState('123456');
   const [isLoading, setLoading] = useState(false);
   const {state, dispatch} = useContext(Context);
 
