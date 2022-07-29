@@ -34,11 +34,15 @@ const Profile = () => {
   );
 };
 
+let userDataStored = null;
 const Navigation = () => {
+  const {state, dispatch} = useContext(Context);
+  // console.log(state.userData, '-=-=-=-=-');
   useEffect(() => {
     const fetchUserData = async () => {
-      let userDataStored = await AsyncStorage.getItem('userData');
+      userDataStored = await AsyncStorage.getItem('userData');
       userDataStored = JSON.parse(userDataStored);
+      console.log(userDataStored, '==========');
       dispatch({
         type: 'UPDATE_USER_DATA',
         userData: userDataStored,
@@ -46,7 +50,8 @@ const Navigation = () => {
     };
     fetchUserData();
   }, []);
-  const {state, dispatch} = useContext(Context);
+
+
   return (
     <NavigationContainer>
       {state.userData.islogged ? <Profile /> : <Auth />}

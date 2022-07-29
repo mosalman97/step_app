@@ -15,8 +15,8 @@ import {Context} from '../context/Store';
 import axios from 'axios';
 
 const Signin = ({navigation}) => {
-  const [username, setUsername] = useState('Ammu@example.com');
-  const [password, setPassword] = useState('123456');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setLoading] = useState(false);
   const {state, dispatch} = useContext(Context);
 
@@ -59,12 +59,14 @@ const Signin = ({navigation}) => {
               placeholder="Enter Username"
               onChangeText={username => setUsername(username)}
               value={username}
+              placeholderTextColor="black"
             />
             <TextInput
               style={styles.input}
               placeholder="Enter Password"
               onChangeText={password => setPassword(password)}
               value={password}
+              placeholderTextColor="black"
             />
           </View>
           <TouchableOpacity
@@ -82,7 +84,7 @@ const Signin = ({navigation}) => {
           <TouchableOpacity
             style={styles.createaccount}
             onPress={() => navigation.navigate('Signin')}>
-            <Text>
+            <Text style={{color:"black"}}>
               Create New Account ? <Text style={styles.login}>Sign up</Text>
             </Text>
           </TouchableOpacity>
@@ -114,6 +116,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 50,
     paddingLeft: 20,
+    color:"black",
     alignSelf: 'center',
   },
   signin: {

@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 4,
     marginBottom: 4,
+    color:"black"
   },
   location: {
     flexDirection: 'row',

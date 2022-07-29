@@ -69,12 +69,14 @@ const Signup = ({navigation}) => {
             placeholder="Enter Username"
             onChangeText={username => setUsername(username)}
             value={username}
+            placeholderTextColor="black"
           />
           <TextInput
             style={styles.input}
             placeholder="Enter Email"
             onChangeText={email => setEmail(email)}
             value={email}
+            placeholderTextColor="black"
           />
           <TextInput
             style={styles.input}
@@ -82,6 +84,7 @@ const Signup = ({navigation}) => {
             secureTextEntry
             onChangeText={password => setPassword(password)}
             value={password}
+            placeholderTextColor="black"
           />
         </View>
         <TouchableOpacity
@@ -99,7 +102,7 @@ const Signup = ({navigation}) => {
         <TouchableOpacity
           style={styles.createaccount}
           onPress={() => navigation.navigate('Login')}>
-          <Text>
+          <Text  style={{color:"black"}}>
             Have an account ? <Text style={styles.login}>Log in</Text>
           </Text>
         </TouchableOpacity>
@@ -132,6 +135,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     paddingLeft: 20,
     alignSelf: 'center',
+    color:"black"
   },
   signin: {
     textTransform: 'capitalize',
