@@ -65,23 +65,60 @@ const Home = ({navigation}) => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-          {places.map(item => (
-            <TouchableOpacity onPress={() => addid(item.id)} key={item.id}>
-              <View style={styles.item}>
-                <View>
-                  <Image source={{uri: `${item.image}`}} style={styles.image} />
+          {places.map(item =>
+            searchData ? (
+               places.filter((value)=>{
+                 if(searchData === ""){
+                  return value
+                 }else if(value.name.toLowerCase().includes(searchData.toLowerCase())){
+                  return value
+                 }
+               }).map((item)=>{
+                return (
+                  <TouchableOpacity
+                    onPress={() => addid(item.id)}
+                    key={item.id}>
+                    <View style={styles.item}>
+                      <View>
+                        <Image
+                          source={{uri: `${item.image}`}}
+                          style={styles.image}
+                        />
+                      </View>
+                      <Text style={styles.name}>{item.name}</Text>
+                      <View style={styles.location}>
+                        <Image
+                          style={styles.locationimage}
+                          source={require('../../assets/images/location.png')}
+                        />
+                        <Text style={styles.locationname}>{item.location}</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                );
+               })
+
+            ) : (
+              <TouchableOpacity onPress={() => addid(item.id)} key={item.id}>
+                <View style={styles.item}>
+                  <View>
+                    <Image
+                      source={{uri: `${item.image}`}}
+                      style={styles.image}
+                    />
+                  </View>
+                  <Text style={styles.name}>{item.name}</Text>
+                  <View style={styles.location}>
+                    <Image
+                      style={styles.locationimage}
+                      source={require('../../assets/images/location.png')}
+                    />
+                    <Text style={styles.locationname}>{item.location}</Text>
+                  </View>
                 </View>
-                <Text style={styles.name}>{item.name}</Text>
-                <View style={styles.location}>
-                  <Image
-                    style={styles.locationimage}
-                    source={require('../../assets/images/location.png')}
-                  />
-                  <Text style={styles.locationname}>{item.location}</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))}
+              </TouchableOpacity>
+            ),
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

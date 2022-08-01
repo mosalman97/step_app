@@ -14,7 +14,7 @@ import {useRoute} from '@react-navigation/native';
 import Loader from '../../assets/lottie/Loader';
 import {Context} from '../context/Store';
 
-const SinglePage = () => {
+const SinglePage = ({navigation}) => {
   const [detail, setDetail] = useState([]);
   const [gallery, setGallery] = useState([]);
   const [ids, setId] = useState(0);
@@ -55,10 +55,12 @@ const SinglePage = () => {
       <ScrollView>
         <View style={styles.contaniner}>
           <View style={styles.head}>
-            <Image
-              style={styles.logo}
-              source={require('../../assets/images/logo.png')}
-            />
+            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+              <Image
+                style={styles.logo}
+                source={require('../../assets/images/logo.png')}
+              />
+            </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={logout}>
               <Text style={styles.buttontext}>Logout</Text>
             </TouchableOpacity>
